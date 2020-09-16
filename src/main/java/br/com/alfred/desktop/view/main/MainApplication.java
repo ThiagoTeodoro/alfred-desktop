@@ -5,7 +5,11 @@
  */
 package br.com.alfred.desktop.view.main;
 
+import br.com.alfred.desktop.view.corretoras.CorretorasDataViewer;
+import java.awt.Color;
 import java.awt.Frame;
+import java.awt.Graphics;
+import javax.swing.JInternalFrame;
 
 /**
  * Main form principal da aplicação.
@@ -21,7 +25,7 @@ public class MainApplication extends javax.swing.JFrame {
         
         //Configurações iniciais da tela.
         initComponents();
-        setExtendedState(Frame.MAXIMIZED_BOTH);
+        setExtendedState(Frame.MAXIMIZED_BOTH);        
     }
 
     /**
@@ -38,12 +42,20 @@ public class MainApplication extends javax.swing.JFrame {
         corretorasJButton = new javax.swing.JButton();
         titleJLabel = new javax.swing.JLabel();
         utilJPanel = new javax.swing.JPanel();
+        utilJDesktopPane = new javax.swing.JDesktopPane(){
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(Color.WHITE);
+                g.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Alfred - Gerenciador Financeiro");
         setBackground(new java.awt.Color(255, 255, 255));
         setName("mainJFrame"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -52,7 +64,7 @@ public class MainApplication extends javax.swing.JFrame {
         corretorasJButton.setBackground(new java.awt.Color(0, 128, 255));
         corretorasJButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         corretorasJButton.setForeground(new java.awt.Color(255, 255, 255));
-        corretorasJButton.setText("Corretoras");
+        corretorasJButton.setText(" - Corretoras");
         corretorasJButton.setBorder(null);
         corretorasJButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         corretorasJButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -92,15 +104,26 @@ public class MainApplication extends javax.swing.JFrame {
 
         utilJPanel.setBackground(new java.awt.Color(255, 255, 255));
 
+        javax.swing.GroupLayout utilJDesktopPaneLayout = new javax.swing.GroupLayout(utilJDesktopPane);
+        utilJDesktopPane.setLayout(utilJDesktopPaneLayout);
+        utilJDesktopPaneLayout.setHorizontalGroup(
+            utilJDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 494, Short.MAX_VALUE)
+        );
+        utilJDesktopPaneLayout.setVerticalGroup(
+            utilJDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout utilJPanelLayout = new javax.swing.GroupLayout(utilJPanel);
         utilJPanel.setLayout(utilJPanelLayout);
         utilJPanelLayout.setHorizontalGroup(
             utilJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 494, Short.MAX_VALUE)
+            .addComponent(utilJDesktopPane, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         utilJPanelLayout.setVerticalGroup(
             utilJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(utilJDesktopPane)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -133,7 +156,10 @@ public class MainApplication extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void corretorasJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_corretorasJButtonActionPerformed
-        // TODO add your handling code here:
+        
+        JInternalFrame corretorasDataViewer = new CorretorasDataViewer(this.utilJDesktopPane);
+        utilJDesktopPane.add(corretorasDataViewer);
+        corretorasDataViewer.setVisible(true);
     }//GEN-LAST:event_corretorasJButtonActionPerformed
 
     /**
@@ -176,6 +202,7 @@ public class MainApplication extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel menuJPanel;
     private javax.swing.JLabel titleJLabel;
+    private javax.swing.JDesktopPane utilJDesktopPane;
     private javax.swing.JPanel utilJPanel;
     // End of variables declaration//GEN-END:variables
 }

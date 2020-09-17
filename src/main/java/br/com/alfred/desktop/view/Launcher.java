@@ -1,7 +1,12 @@
 package br.com.alfred.desktop.view;
 
+import br.com.alfred.desktop.model.Corretora;
+import br.com.alfred.desktop.repository.CorretoraRepository;
 import br.com.alfred.desktop.view.main.MainApplication;
+import java.sql.Timestamp;
+import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +18,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class Launcher implements CommandLineRunner {
+    
+    @Autowired
+    CorretoraRepository corretoraRepository;
 
     /**
      * Runner Principal.
@@ -27,6 +35,13 @@ public class Launcher implements CommandLineRunner {
 
             MainApplication mainApplication = new MainApplication();
             mainApplication.setVisible(true);
+            
+            
+            Corretora teste = new Corretora();
+            teste.setName("teste");
+            teste.setTimestamp(new Timestamp(new Date().getTime()));
+            corretoraRepository.save(teste);
+                
         log.info("Aplicação inicializada!");
     }
 }

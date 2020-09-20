@@ -142,7 +142,7 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
     @Override
     public void reloadMainTable() {
         
-        System.out.println("Chamou");
+        System.out.println("Reload da interface acionado");
     }
 
 }

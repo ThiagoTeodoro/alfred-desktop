@@ -7,7 +7,6 @@ package br.com.alfred.desktop.repository;
 
 import br.com.alfred.desktop.model.Corretora;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,4 +16,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CorretoraRepository extends JpaRepository<Corretora, Integer>{
     
+    /**
+     * Pesquisa por nome de corretora.
+     * 
+     * @param name
+     * @return 
+     */
+    public Corretora findByName(String name);
 }

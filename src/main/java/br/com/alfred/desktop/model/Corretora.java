@@ -22,12 +22,12 @@ public class Corretora {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private int id;
     
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
     
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private boolean active;
     
-    @Column(name = "timestamp")
+    @Column(name = "timestamp", nullable = false)
     private Timestamp timestamp;
 }

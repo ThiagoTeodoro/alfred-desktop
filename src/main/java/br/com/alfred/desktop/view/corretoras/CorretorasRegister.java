@@ -1,20 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package br.com.alfred.desktop.view.corretoras;
 
+import br.com.alfred.desktop.service.CorretoraService;
+import br.com.alfred.desktop.utils.BeanUtil;
 import br.com.alfred.desktop.view.interfaces.IDataViewer;
 import javax.swing.JDesktopPane;
 
 /**
- *
- * @author thiag
+ * View responsável por cadastras novas corretoras.
+ * 
+ * @author Thiago Teodoro Rodrigues <thiago.teodoro.rodrigues@gmail.com>
  */
 public class CorretorasRegister extends javax.swing.JInternalFrame {
-
+ 
     private IDataViewer refDataViewer;
     private JDesktopPane refMain;
     
@@ -102,7 +99,14 @@ public class CorretorasRegister extends javax.swing.JInternalFrame {
 
     private void registerCorretoraJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerCorretoraJButtonActionPerformed
         
+        //Realizando inserção.
+        CorretoraService corretoraService = BeanUtil.getBean(CorretoraService.class);
+        corretoraService.insert(descriptionJTextField.getText());
+        
+        //Recarregando tela anterior        
         this.refDataViewer.reloadMainTable();
+        
+        //Garantindo que o componente será removido do JDestopPane quando fechado.
         this.setVisible(false);
         this.refMain.remove(this); //É importante remover para desalocar a memória.
     }//GEN-LAST:event_registerCorretoraJButtonActionPerformed

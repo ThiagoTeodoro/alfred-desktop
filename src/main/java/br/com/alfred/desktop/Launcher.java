@@ -1,7 +1,8 @@
-package br.com.alfred.desktop.view;
+package br.com.alfred.desktop;
 
 import br.com.alfred.desktop.model.Corretora;
 import br.com.alfred.desktop.repository.CorretoraRepository;
+import br.com.alfred.desktop.utils.MessageUtil;
 import br.com.alfred.desktop.view.main.MainApplication;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -31,17 +32,11 @@ public class Launcher implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        log.info("Inicializando a aplicação...");
+        log.info(MessageUtil.msgStartApplication);
 
             MainApplication mainApplication = new MainApplication();
             mainApplication.setVisible(true);
             
-            
-            Corretora teste = new Corretora();
-            teste.setName("teste");
-            teste.setTimestamp(new Timestamp(new Date().getTime()));
-            corretoraRepository.save(teste);
-                
-        log.info("Aplicação inicializada!");
+        log.info(MessageUtil.msgStartedApplciation);
     }
 }

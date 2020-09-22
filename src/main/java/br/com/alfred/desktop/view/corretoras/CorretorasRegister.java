@@ -2,6 +2,7 @@ package br.com.alfred.desktop.view.corretoras;
 
 import br.com.alfred.desktop.service.CorretoraService;
 import br.com.alfred.desktop.utils.BeanUtil;
+import br.com.alfred.desktop.utils.ViewUtil;
 import br.com.alfred.desktop.view.interfaces.IDataViewer;
 import javax.swing.JDesktopPane;
 
@@ -22,6 +23,7 @@ public class CorretorasRegister extends javax.swing.JInternalFrame {
         initComponents();
         this.refMain = refMain;
         this.refDataViewer = refDataViewer;
+        ViewUtil.setDefaultButtonInternalFrame(this, registerCorretoraJButton);
     }
 
     /** This method is called from within the constructor to

@@ -6,7 +6,13 @@
 
 package br.com.alfred.desktop.view.corretoras;
 
+import br.com.alfred.desktop.model.Corretora;
+import br.com.alfred.desktop.repository.CorretoraRepository;
+import br.com.alfred.desktop.utils.BeanUtil;
+import br.com.alfred.desktop.utils.TableUtil;
 import br.com.alfred.desktop.view.interfaces.IDataViewer;
+import java.util.List;
+import java.util.Vector;
 import javax.swing.JDesktopPane;
 
 /**
@@ -23,6 +29,9 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
         //Inicializando componente.
         initComponents();
         this.refMain = refMain;
+        
+        //Carregando dados da tabela.
+        this.reloadMainTable();
     }
 
     /** This method is called from within the constructor to
@@ -97,7 +106,6 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
             }
         });
         corretorasJTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        corretorasJTable.setGridColor(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(corretorasJTable);
         if (corretorasJTable.getColumnModel().getColumnCount() > 0) {
             corretorasJTable.getColumnModel().getColumn(0).setMinWidth(100);
@@ -142,7 +150,22 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
     @Override
     public void reloadMainTable() {
         
-        System.out.println("Reload da interface acionado");
+        //Injeção de dependência
+        CorretoraRepository corretoraRepository = BeanUtil.getBean(CorretoraRepository.class);
+        List<Corretora> listCorretora = corretoraRepository.findAll();
+        
+        //Limpados dados da tabela.
+        TableUtil.emptyTable(this.corretorasJTable);
+        
+        //Populando a tabela.
+        for(Corretora corretora : listCorretora){
+            
+            Vector<String> aux = new Vector<>();
+            aux.add(String.valueOf(corretora.getId()));
+            aux.add((String) corretora.getName());
+            
+            TableUtil.addLine(this.corretorasJTable, aux);
+        }
     }
 
 }

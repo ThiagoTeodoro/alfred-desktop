@@ -25,5 +25,4 @@ public class BeanUtil implements ApplicationContextAware {
 
         return context.getBean(beanClass);
     }
-
 }

@@ -6,10 +6,14 @@
 
 package br.com.alfred.desktop.view.corretoras;
 
+import br.com.alfred.desktop.exceptions.GenericException;
+import br.com.alfred.desktop.exceptions.RequiredFieldException;
 import br.com.alfred.desktop.model.Corretora;
-import br.com.alfred.desktop.repository.CorretoraRepository;
+import br.com.alfred.desktop.persistence.repository.CorretoraRepository;
 import br.com.alfred.desktop.utils.BeanUtil;
+import br.com.alfred.desktop.utils.MessageUtil;
 import br.com.alfred.desktop.utils.TableUtil;
+import br.com.alfred.desktop.utils.ViewUtil;
 import br.com.alfred.desktop.view.interfaces.IDataViewer;
 import java.util.List;
 import java.util.Vector;
@@ -19,7 +23,7 @@ import javax.swing.JDesktopPane;
  *
  * @author Thiago Teodoro Rodrigues <thiago.teodoro.rodrigues@gmail.com.br>
  */
-public class CorretorasDataViewer extends javax.swing.JInternalFrame implements IDataViewer{
+public class CorretorasDataViewer extends javax.swing.JInternalFrame implements IDataViewer {
     
     private JDesktopPane refMain;
 
@@ -45,6 +49,7 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
 
         colorJPanel = new javax.swing.JPanel();
         addJButton = new javax.swing.JButton();
+        editJButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         corretorasJTable = new javax.swing.JTable();
 
@@ -52,6 +57,23 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
         setMaximizable(true);
         setResizable(true);
         setTitle("Corretoras");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         colorJPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -64,6 +86,15 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
             }
         });
 
+        editJButton.setBackground(new java.awt.Color(255, 255, 255));
+        editJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit.png"))); // NOI18N
+        editJButton.setBorder(null);
+        editJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editJButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout colorJPanelLayout = new javax.swing.GroupLayout(colorJPanel);
         colorJPanel.setLayout(colorJPanelLayout);
         colorJPanelLayout.setHorizontalGroup(
@@ -71,30 +102,34 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
             .addGroup(colorJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(addJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(editJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         colorJPanelLayout.setVerticalGroup(
             colorJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(colorJPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, colorJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(addJButton, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                .addGroup(colorJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(editJButton, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                    .addComponent(addJButton, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         corretorasJTable.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         corretorasJTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+                {null, null, null}
             },
             new String [] {
-                "Código", "Descrição"
+                "Código", "Descrição", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -112,6 +147,9 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
             corretorasJTable.getColumnModel().getColumn(0).setPreferredWidth(100);
             corretorasJTable.getColumnModel().getColumn(0).setMaxWidth(100);
             corretorasJTable.getColumnModel().getColumn(1).setResizable(false);
+            corretorasJTable.getColumnModel().getColumn(2).setMinWidth(100);
+            corretorasJTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+            corretorasJTable.getColumnModel().getColumn(2).setMaxWidth(100);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -133,20 +171,64 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
     }// </editor-fold>//GEN-END:initComponents
 
     private void addJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addJButtonActionPerformed
-                
-        CorretorasRegister corretorasRegister = new CorretorasRegister(this, this.refMain);
-        this.refMain.add(corretorasRegister);
-        corretorasRegister.setVisible(true);
+           
+        try{
+            
+            CorretorasManager corretorasRegister = new CorretorasManager(this, this.refMain, Boolean.FALSE, null);
+            this.refMain.add(corretorasRegister);
+            corretorasRegister.setVisible(true);
+        } catch (Exception e){
+            
+            this.closeAndDeallocateMemoryFrame();
+        }
     }//GEN-LAST:event_addJButtonActionPerformed
+
+    private void editJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editJButtonActionPerformed
+                
+        try{
+            
+            if(TableUtil.lineIsSelected(this.corretorasJTable)){
+                
+                //Obtendo id da Corretora Selecionada
+                int idCorretora =Integer.parseInt(TableUtil.getColumnValueSelectedRow(this.corretorasJTable, 0));                     
+                
+                //Injeção de dependência
+                CorretoraRepository corretoraRepository = BeanUtil.getBean(CorretoraRepository.class);
+                
+                CorretorasManager corretorasRegister = new CorretorasManager(this, this.refMain, Boolean.TRUE, corretoraRepository.findById(idCorretora).get());
+                this.refMain.add(corretorasRegister);
+                corretorasRegister.setVisible(true);                 
+            } else {                
+                
+                new RequiredFieldException(MessageUtil.selectLineRiquired);
+            }                        
+        } catch (GenericException e){
+            
+            //Se for lançada uma Exception Genérica aqui é por que tentou editar uma corretora desativada não faremos nada nesse caso.                                            
+        } catch (Exception e){
+            
+            this.closeAndDeallocateMemoryFrame();
+        }                        
+    }//GEN-LAST:event_editJButtonActionPerformed
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        
+        //Garantindo Fechamento correto do JInternalFrame.
+        this.closeAndDeallocateMemoryFrame();
+    }//GEN-LAST:event_formInternalFrameClosed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addJButton;
     private javax.swing.JPanel colorJPanel;
     private javax.swing.JTable corretorasJTable;
+    private javax.swing.JButton editJButton;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Método padrão para atualizar um Table de um Dataveiwer.
+     */
     @Override
     public void reloadMainTable() {
         
@@ -163,9 +245,21 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
             Vector<String> aux = new Vector<>();
             aux.add(String.valueOf(corretora.getId()));
             aux.add((String) corretora.getName());
+            aux.add(corretora.isActive() ? "Ativa" : "Desativada");
             
             TableUtil.addLine(this.corretorasJTable, aux);
         }
+    }
+    
+    
+    /**
+     * Método responsável por garantir que um JInternalFrame será fechado e 
+     * desalocado da memória.     
+     */
+    @Override
+    public void closeAndDeallocateMemoryFrame() {
+        
+        ViewUtil.closeAndDeallocateMemoryFrame(this, this.refMain);
     }
 
 }

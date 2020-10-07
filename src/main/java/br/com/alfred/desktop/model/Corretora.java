@@ -28,6 +28,9 @@ public class Corretora {
     @Column(name = "active", nullable = false)
     private boolean active;
     
-    @Column(name = "timestamp", nullable = false)
-    private Timestamp timestamp;
+    @Column(name = "insert_timestamp", nullable = false)
+    private Timestamp insertTimestamp;
+    
+    @Column(name = "update_timestamp", nullable = true)
+    private Timestamp updateTimestamp;
 }

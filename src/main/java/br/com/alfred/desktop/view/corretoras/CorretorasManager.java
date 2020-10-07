@@ -1,29 +1,51 @@
 package br.com.alfred.desktop.view.corretoras;
 
+import br.com.alfred.desktop.exceptions.GenericException;
+import br.com.alfred.desktop.model.Corretora;
 import br.com.alfred.desktop.service.CorretoraService;
 import br.com.alfred.desktop.utils.BeanUtil;
 import br.com.alfred.desktop.utils.ViewUtil;
 import br.com.alfred.desktop.view.interfaces.IDataViewer;
+import br.com.alfred.desktop.view.interfaces.IManagerViewer;
+import java.util.Date;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 
 /**
  * View responsável por cadastras novas corretoras.
  * 
  * @author Thiago Teodoro Rodrigues <thiago.teodoro.rodrigues@gmail.com>
  */
-public class CorretorasRegister extends javax.swing.JInternalFrame {
+public class CorretorasManager extends javax.swing.JInternalFrame implements IManagerViewer {
  
     private IDataViewer refDataViewer;
     private JDesktopPane refMain;
+    private Corretora corretoraForEdit;
+    private Boolean edit;
     
     /** Creates new form CorretorasRegister */
-    public CorretorasRegister(IDataViewer refDataViewer, JDesktopPane refMain) {
+    public CorretorasManager(IDataViewer refDataViewer, JDesktopPane refMain, Boolean edit, Corretora corretoraForEdit) throws GenericException {
         
         //Inicializando componentes
         initComponents();
         this.refMain = refMain;
         this.refDataViewer = refDataViewer;
-        ViewUtil.setDefaultButtonInternalFrame(this, registerCorretoraJButton);
+        this.edit = edit;
+        ViewUtil.setDefaultButtonInternalFrame(this, executeCorretoraJButton);
+        
+        if(edit){
+            
+            if(corretoraForEdit.isActive()){
+                
+                //Configurando tela para edit
+                this.corretoraForEdit = corretoraForEdit;
+                this.setFrameToEditProcess();
+            } else {
+                
+                //Não é possivel realizar a edição de corretoras desativadas
+                throw new GenericException("Não é permitido edição de corretoras desátivadas!", JOptionPane.WARNING_MESSAGE);               
+            }                        
+        }
     }
 
     /** This method is called from within the constructor to
@@ -37,7 +59,7 @@ public class CorretorasRegister extends javax.swing.JInternalFrame {
 
         descriptonJLabel = new javax.swing.JLabel();
         descriptionJTextField = new javax.swing.JTextField();
-        registerCorretoraJButton = new javax.swing.JButton();
+        executeCorretoraJButton = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Incluir Corretora");
@@ -62,10 +84,10 @@ public class CorretorasRegister extends javax.swing.JInternalFrame {
         descriptonJLabel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         descriptonJLabel.setText("Nome da Corretora : ");
 
-        registerCorretoraJButton.setText("Incluir");
-        registerCorretoraJButton.addActionListener(new java.awt.event.ActionListener() {
+        executeCorretoraJButton.setText("Incluir");
+        executeCorretoraJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registerCorretoraJButtonActionPerformed(evt);
+                executeCorretoraJButtonActionPerformed(evt);
             }
         });
 
@@ -81,7 +103,7 @@ public class CorretorasRegister extends javax.swing.JInternalFrame {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(220, 220, 220)
-                .addComponent(registerCorretoraJButton)
+                .addComponent(executeCorretoraJButton)
                 .addContainerGap(220, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -92,39 +114,85 @@ public class CorretorasRegister extends javax.swing.JInternalFrame {
                     .addComponent(descriptonJLabel)
                     .addComponent(descriptionJTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(registerCorretoraJButton)
+                .addComponent(executeCorretoraJButton)
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void registerCorretoraJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerCorretoraJButtonActionPerformed
+    private void executeCorretoraJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_executeCorretoraJButtonActionPerformed
         
-        //Realizando inserção.
-        CorretoraService corretoraService = BeanUtil.getBean(CorretoraService.class);
-        corretoraService.insert(descriptionJTextField.getText());
-        
-        //Recarregando tela anterior        
-        this.refDataViewer.reloadMainTable();
-        
-        //Garantindo que o componente será removido do JDestopPane quando fechado.
-        this.setVisible(false);
-        this.refMain.remove(this); //É importante remover para desalocar a memória.
-    }//GEN-LAST:event_registerCorretoraJButtonActionPerformed
+        //Descobrindo se é uma edição ou uma inserção
+        if(this.edit){
+            
+            this.corretoraForEdit.setName(this.descriptionJTextField.getText());
+            
+            //Realizando inserção.
+            CorretoraService corretoraService = BeanUtil.getBean(CorretoraService.class);
+            Corretora updateCorretora =  corretoraService.update(this.corretoraForEdit);            
+            
+            if(updateCorretora != null){
+
+                //Recarregando tela anterior        
+                this.refDataViewer.reloadMainTable();
+
+                //Garantindo Fechamento Correto do JInternalFrame
+                this.closeAndDeallocateMemoryFrame();
+            }                         
+        } else{
+            
+            //Realizando inserção.
+            CorretoraService corretoraService = BeanUtil.getBean(CorretoraService.class);
+            Corretora insertedCorretora =  corretoraService.safeInsert(descriptionJTextField.getText());
+
+            if(insertedCorretora != null){
+
+                //Recarregando tela anterior        
+                this.refDataViewer.reloadMainTable();
+
+                //Garantindo Fechamento Correto do JInternalFrame
+                this.closeAndDeallocateMemoryFrame();
+            }     
+        }          
+    }//GEN-LAST:event_executeCorretoraJButtonActionPerformed
 
     private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
         
-        //Garantindo que o componente será removido do JDestopPane quando fechado.
-        this.setVisible(false);
-        this.refMain.remove(this); //É importante remover para desalocar a memória.
+        //Garantindo Fechamento Correto do JInternalFrame
+        this.closeAndDeallocateMemoryFrame();
     }//GEN-LAST:event_formInternalFrameClosed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField descriptionJTextField;
     private javax.swing.JLabel descriptonJLabel;
-    private javax.swing.JButton registerCorretoraJButton;
+    private javax.swing.JButton executeCorretoraJButton;
     // End of variables declaration//GEN-END:variables
 
+    
+    /**
+     * Método responsável por preencher os dados de edição na tela para que 
+     * a mesma possa exibilos e também trocar todos os testos para inidicar
+     * um processo de edição.
+     */    
+    @Override
+    public void setFrameToEditProcess(){
+        
+        CorretorasManager.this.setTitle("Editar Corretora");
+        CorretorasManager.this.executeCorretoraJButton.setText("Editar");       
+        CorretorasManager.this.descriptionJTextField.setText(this.corretoraForEdit.getName());
+    }
+    
+    
+    /**
+     * Método responsável por garantir que um JInternalFrame será fechado e 
+     * desalocado da memória.     
+     */
+    @Override
+    public void closeAndDeallocateMemoryFrame() {
+            
+        ViewUtil.closeAndDeallocateMemoryFrame(this, this.refMain);
+    }
+    
 }

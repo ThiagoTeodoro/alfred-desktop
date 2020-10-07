@@ -1,6 +1,7 @@
 package br.com.alfred.desktop.utils;
 
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 
 /**
@@ -21,6 +22,20 @@ public class ViewUtil {
     public static void setDefaultButtonInternalFrame(JInternalFrame frame, JButton jButton){
         
         frame.getRootPane().setDefaultButton(jButton);
+    }
+    
+    /**
+     * Método responsável por garantir que um JInternalFrame será fechado e 
+     * desalocado da memória.
+     * 
+     * @param frame
+     * @param refMain 
+     */
+    public static void closeAndDeallocateMemoryFrame(JInternalFrame frame, JDesktopPane refMain){
+        
+        //Garantindo que o componente será removido do JDestopPane quando fechado.
+        frame.setVisible(false);
+        refMain.remove(frame); //É importante remover para desalocar a memória.
     }
     
 }

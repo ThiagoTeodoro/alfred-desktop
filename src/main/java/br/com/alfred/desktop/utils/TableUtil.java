@@ -1,6 +1,9 @@
 package br.com.alfred.desktop.utils;
 
+import br.com.alfred.desktop.exceptions.GenericException;
+import br.com.alfred.desktop.exceptions.RequiredFieldException;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,12 +38,51 @@ public class TableUtil {
     public static void addLine(JTable jTable, Vector<String> line){
         
         //Obtendo Layout da Tabela enviada.
-        DefaultTableModel tableModel = (DefaultTableModel) jTable.getModel();
+        DefaultTableModel tableModel = (DefaultTableModel) jTable.getModel();                
         
         if(!line.isEmpty()){
             
             tableModel.addRow(line);
         }        
+    }
+    
+    
+    /**
+     * Método responsável por obter o valor de uma coluna no JTabele conforme
+     * linha selecionada.          
+     * 
+     * @param jTable
+     * @param numberOfTargetColumn
+     * @return
+     * @throws GenericException 
+     */
+    public static String getColumnValueSelectedRow(JTable jTable, int numberOfTargetColumn) throws GenericException, RequiredFieldException {
+        
+        String result = null;
+                
+        try{
+            
+            int numberRow = jTable.getSelectedRow();                        
+            result = jTable.getValueAt(numberRow, numberOfTargetColumn).toString();                                               
+        } catch(Exception e) {
+            
+            throw new GenericException(String.format(MessageUtil.msgGenericError, e.getMessage()), JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return result;
+    }
+    
+    
+    /**
+     * Método responsável por verificar se uma linha está selecionada em um 
+     * JTable.
+     * 
+     * @param jTable 
+     * @return 
+     */
+    public static boolean lineIsSelected(JTable jTable){
+        
+        return jTable.getSelectedRow() != -1;
     }
     
     

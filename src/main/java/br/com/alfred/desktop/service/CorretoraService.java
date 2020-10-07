@@ -1,8 +1,9 @@
 package br.com.alfred.desktop.service;
 
+import br.com.alfred.desktop.exceptions.DataAlreadyExistException;
 import br.com.alfred.desktop.exceptions.RequiredFieldException;
 import br.com.alfred.desktop.model.Corretora;
-import br.com.alfred.desktop.repository.CorretoraRepository;
+import br.com.alfred.desktop.persistence.repository.CorretoraRepository;
 import br.com.alfred.desktop.utils.MessageUtil;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -35,7 +36,7 @@ public class CorretoraService {
      * @param name O nome da corretora. Campo Obrigatório!
      * @return
      */
-    public Corretora insert(String name) {
+    public Corretora safeInsert(String name) {
 
         Corretora corretora = null;
 
@@ -46,7 +47,8 @@ public class CorretoraService {
                 corretora = new Corretora();
                 corretora.setName(name);
                 corretora.setActive(true);
-                corretora.setTimestamp(new Timestamp(new Date().getTime()));
+                corretora.setInsertTimestamp(new Timestamp(new Date().getTime()));
+                corretora.setUpdateTimestamp(null);
 
                 Corretora checkCorretoraExist = corretoraIsExist(name);
 
@@ -82,13 +84,50 @@ public class CorretoraService {
 
         try {
 
-            corretora = corretoraRepository.findByName(name);
+            corretora = corretoraRepository.findByNameAndActive(name, true);
         } catch (Exception e) {
 
             log.error(String.format(MessageUtil.msgGenericError, e), e);
         }
 
         return corretora;
+    }
+
+    /**
+     * Método responsável por executar a atualização de uma corretora no banco
+     * de dados.
+     *
+     * @return
+     */
+    public Corretora update(Corretora corretoraForUpdate) {
+
+        Corretora result = null;
+
+        try {
+
+            if (corretoraForUpdate != null && !corretoraForUpdate.getName().isEmpty()) {
+
+                corretoraForUpdate.setUpdateTimestamp(new Timestamp(new Date().getTime()));
+                Corretora checkCorretoraExist = corretoraIsExist(corretoraForUpdate.getName());
+
+                if (checkCorretoraExist == null) {
+
+                    result = corretoraRepository.save(corretoraForUpdate);
+                } else {
+
+                    new DataAlreadyExistException(String.format(MessageUtil.dataAlreadyExist, corretoraForUpdate.getName()));
+                    result = checkCorretoraExist;
+                }
+            } else {
+
+                throw new RequiredFieldException("O nome da corretora é obrigatório!");
+            }
+        } catch (Exception e) {
+
+            log.error(String.format(MessageUtil.msgGenericError, e), e);
+        }
+
+        return result;
     }
 
 }

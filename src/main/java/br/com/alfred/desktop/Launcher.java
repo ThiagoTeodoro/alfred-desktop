@@ -1,6 +1,6 @@
 package br.com.alfred.desktop;
 
-import br.com.alfred.desktop.repository.CorretoraRepository;
+import br.com.alfred.desktop.persistence.repository.CorretoraRepository;
 import br.com.alfred.desktop.utils.MessageUtil;
 import br.com.alfred.desktop.view.main.MainApplication;
 import javax.swing.UIManager;

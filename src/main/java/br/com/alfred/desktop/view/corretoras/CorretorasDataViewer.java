@@ -15,8 +15,12 @@ import br.com.alfred.desktop.utils.MessageUtil;
 import br.com.alfred.desktop.utils.TableUtil;
 import br.com.alfred.desktop.utils.ViewUtil;
 import br.com.alfred.desktop.view.interfaces.IDataViewer;
+import java.net.URL;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 
 /**
@@ -34,6 +38,12 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
         initComponents();
         this.refMain = refMain;
         
+        //Setando renderizador personalizado da tabela.
+        this.corretorasJTable.setDefaultRenderer(String.class, new CorretorasDataViewerJTableRender());
+        
+        //Retirando Borda do botão de on/off que é só pro Desenvolvimento ver
+        this.enableJButton.setBorder(this.addJButton.getBorder());
+        
         //Carregando dados da tabela.
         this.reloadMainTable();
     }
@@ -50,6 +60,7 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
         colorJPanel = new javax.swing.JPanel();
         addJButton = new javax.swing.JButton();
         editJButton = new javax.swing.JButton();
+        enableJButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         corretorasJTable = new javax.swing.JTable();
 
@@ -95,6 +106,14 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
             }
         });
 
+        enableJButton.setBackground(new java.awt.Color(255, 255, 255));
+        enableJButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        enableJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enableJButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout colorJPanelLayout = new javax.swing.GroupLayout(colorJPanel);
         colorJPanel.setLayout(colorJPanelLayout);
         colorJPanelLayout.setHorizontalGroup(
@@ -104,6 +123,8 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
                 .addComponent(addJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(editJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(enableJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         colorJPanelLayout.setVerticalGroup(
@@ -112,7 +133,8 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
                 .addContainerGap()
                 .addGroup(colorJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(editJButton, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-                    .addComponent(addJButton, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
+                    .addComponent(addJButton, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                    .addComponent(enableJButton, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -126,7 +148,7 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false
@@ -141,6 +163,12 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
             }
         });
         corretorasJTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        corretorasJTable.getTableHeader().setReorderingAllowed(false);
+        corretorasJTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                corretorasJTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(corretorasJTable);
         if (corretorasJTable.getColumnModel().getColumnCount() > 0) {
             corretorasJTable.getColumnModel().getColumn(0).setMinWidth(100);
@@ -217,12 +245,50 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
         this.closeAndDeallocateMemoryFrame();
     }//GEN-LAST:event_formInternalFrameClosed
 
+    private void enableJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableJButtonActionPerformed
+        
+        
+        //LEMBRETE, QUANDO FOR ATIVAR OU DESATIVAR QUANDO O PROCESSO CONCLUIR 
+        //VOCÊ PRECISA MUDAR O BOTÃO PARA ON OU OFF DEPENDENDO DO QUE VIER.
+        //POR ISSO TALVE SEJA INTENRESSANTE DESACOPLAR O METODO ACIMA PARA 
+        //FAZER ESSA AÇÃO TANTO NO RETORNO DA OPERAÇÃO AQUI QUANTO LÁ NA OPERAÇÃO
+        //DE CLICK DO MAUSE NO JTABLE!!!!!!
+        
+    }//GEN-LAST:event_enableJButtonActionPerformed
+
+    /**
+     * Ação para mudar o icone de On/Off conforme o cadastro.
+     * @param evt 
+     */
+    private void corretorasJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_corretorasJTableMouseClicked
+        
+        try {
+            
+            if(TableUtil.getColumnValueSelectedRow(this.corretorasJTable, 2).equals("Ativa")){
+                                
+                URL imgURL = getClass().getClassLoader().getResource("icons/off.png");
+                this.enableJButton.setIcon(new ImageIcon(imgURL, "Desativar"));
+            } else if(TableUtil.getColumnValueSelectedRow(this.corretorasJTable, 2).equals("Desativada")) {
+                
+                URL imgURL = getClass().getClassLoader().getResource("icons/on.png");
+                this.enableJButton.setIcon(new ImageIcon(imgURL, "Ativar"));
+            }            
+        } catch (GenericException ex) {
+            
+            Logger.getLogger(CorretorasDataViewer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RequiredFieldException ex) {
+            
+            Logger.getLogger(CorretorasDataViewer.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }//GEN-LAST:event_corretorasJTableMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addJButton;
     private javax.swing.JPanel colorJPanel;
     private javax.swing.JTable corretorasJTable;
     private javax.swing.JButton editJButton;
+    private javax.swing.JButton enableJButton;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 

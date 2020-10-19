@@ -2,7 +2,7 @@ package br.com.alfred.desktop.view.corretoras;
 
 import br.com.alfred.desktop.exceptions.GenericException;
 import br.com.alfred.desktop.model.Corretora;
-import br.com.alfred.desktop.service.CorretoraService;
+import br.com.alfred.desktop.service.CorretoraServiceImpl;
 import br.com.alfred.desktop.utils.BeanUtil;
 import br.com.alfred.desktop.utils.ViewUtil;
 import br.com.alfred.desktop.view.interfaces.IDataViewer;
@@ -129,8 +129,8 @@ public class CorretorasManager extends javax.swing.JInternalFrame implements IMa
             this.corretoraForEdit.setName(this.descriptionJTextField.getText());
             
             //Realizando inserção.
-            CorretoraService corretoraService = BeanUtil.getBean(CorretoraService.class);
-            Corretora updateCorretora =  corretoraService.update(this.corretoraForEdit);            
+            CorretoraServiceImpl corretoraService = BeanUtil.getBean(CorretoraServiceImpl.class);
+            Corretora updateCorretora =  corretoraService.safeUpdate(this.corretoraForEdit);            
             
             if(updateCorretora != null){
 
@@ -143,7 +143,7 @@ public class CorretorasManager extends javax.swing.JInternalFrame implements IMa
         } else{
             
             //Realizando inserção.
-            CorretoraService corretoraService = BeanUtil.getBean(CorretoraService.class);
+            CorretoraServiceImpl corretoraService = BeanUtil.getBean(CorretoraServiceImpl.class);
             Corretora insertedCorretora =  corretoraService.safeInsert(descriptionJTextField.getText());
 
             if(insertedCorretora != null){

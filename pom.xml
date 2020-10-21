@@ -53,6 +53,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        
+        
+        <!-- Projetos como Dependencia -->
+        <dependency>
+            <groupId>com.tesourodireto.client</groupId>
+            <artifactId>client-tesourodireto</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

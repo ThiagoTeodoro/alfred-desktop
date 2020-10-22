@@ -17,14 +17,18 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
 
     @Override
-    public List<TreasuryBondResume> getBrazilTreasuryBoundResume() {
+    public List<TreasuryBondResume> getBrazilTreasuryBoundResume(boolean disableVerifySSL) {
 
         List<TreasuryBondResume> result = new ArrayList<>();
 
         try {
 
-            //Desabilitando SSL.
-            SSLTrustChain.disableSSLVerification();
+            //Desabilitando SSL se solicitado
+            if(disableVerifySSL){
+                
+                SSLTrustChain.disableSSLVerification();
+            }
+            
 
             //Get Treasure Bouds Info from Brazil Treasury
             TreasuryBondsInfo treasuryBondsInfo = RestTemplateFactory
@@ -52,8 +56,7 @@ public class ClientServiceImpl implements ClientService {
                         .timestamp(dateRequest)
                         .build()
                 );
-            }
-            );
+            });
 
         } catch (Exception e) {
 
@@ -67,7 +70,7 @@ public class ClientServiceImpl implements ClientService {
     public TreasuryBondsInfo getBrazilTreasuryBoundInfo() {
 
         TreasuryBondsInfo result = new TreasuryBondsInfo();
-
+                
         try {
 
             //Desabilitando SSL.

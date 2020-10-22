@@ -16,7 +16,7 @@ public interface ClientService {
      * 
      * @return 
      */
-    public List<TreasuryBondResume> getBrazilTreasuryBoundResume();
+    public List<TreasuryBondResume> getBrazilTreasuryBoundResume(boolean disableVerifySSL);
     
     
     /**

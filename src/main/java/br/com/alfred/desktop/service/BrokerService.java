@@ -1,13 +1,13 @@
 package br.com.alfred.desktop.service;
 
-import br.com.alfred.desktop.model.Corretora;
+import br.com.alfred.desktop.model.Broker;
 
 /**
  * Serviço para as operações com a corretora.
  *
  * @author Thiago Teodoro Rodrigues <thiago.teodoro.rodrigues@gmail.com>
  */
-public interface CorretoraService {
+public interface BrokerService {
 
     /**
      * Método responsável por verificar se uma corretora já não existe no banco
@@ -16,7 +16,7 @@ public interface CorretoraService {
      * @param name
      * @return
      */
-    Corretora corretoraIsExist(String name);
+    Broker corretoraIsExist(String name);
 
     /**
      * Serviço responsável por salvar novas corretoras.
@@ -31,7 +31,7 @@ public interface CorretoraService {
      * @param name O nome da corretora. Campo Obrigatório!
      * @return
      */
-    Corretora safeInsert(String name);
+    Broker safeInsert(String name);
 
     /**
      * Método responsável por executar a atualização de uma corretora no banco
@@ -40,7 +40,7 @@ public interface CorretoraService {
      * @param corretoraForUpdate
      * @return
      */
-    Corretora safeUpdate(Corretora corretoraForUpdate);
+    Broker safeUpdate(Broker corretoraForUpdate);
 
     /**
      * Método responsável por executar a atualização de uma corretora no banco
@@ -49,7 +49,7 @@ public interface CorretoraService {
      * @param corretoraForUpdate
      * @return
      */
-    Corretora unSafeUpdate(Corretora corretoraForUpdate);
+    Broker unSafeUpdate(Broker corretoraForUpdate);
 
     /**
      * Método responsável por recupear uma corretora pelo seu Id.Caso a
@@ -59,6 +59,6 @@ public interface CorretoraService {
      * @return
      * @throws java.lang.Exception
      */
-    Corretora getCorretoraById(int id) throws Exception;
+    Broker getCorretoraById(int id) throws Exception;
 
 }

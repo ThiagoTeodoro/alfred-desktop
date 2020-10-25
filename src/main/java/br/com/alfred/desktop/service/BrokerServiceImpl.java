@@ -3,8 +3,7 @@ package br.com.alfred.desktop.service;
 import br.com.alfred.desktop.exceptions.DataAlreadyExistException;
 import br.com.alfred.desktop.exceptions.GenericException;
 import br.com.alfred.desktop.exceptions.RequiredFieldException;
-import br.com.alfred.desktop.model.Corretora;
-import br.com.alfred.desktop.persistence.repository.CorretoraRepository;
+import br.com.alfred.desktop.model.Broker;
 import br.com.alfred.desktop.utils.MessageUtil;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -14,6 +13,7 @@ import javax.swing.JOptionPane;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.com.alfred.desktop.persistence.repository.BorkerRepository;
 
 /**
  * Classe de serviço para corretoras.
@@ -22,10 +22,10 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class CorretoraServiceImpl implements CorretoraService {
+public class BrokerServiceImpl implements BrokerService {
 
     @Autowired
-    CorretoraRepository corretoraRepository;
+    BorkerRepository corretoraRepository;
 
     /**
      * Serviço responsável por salvar novas corretoras.
@@ -41,21 +41,21 @@ public class CorretoraServiceImpl implements CorretoraService {
      * @return
      */
     @Override
-    public Corretora safeInsert(String name) {
+    public Broker safeInsert(String name) {
 
-        Corretora corretora = null;
+        Broker corretora = null;
 
         try {
 
             if (name != null && !name.isEmpty()) {
 
-                corretora = new Corretora();
+                corretora = new Broker();
                 corretora.setName(name);
                 corretora.setActive(true);
                 corretora.setInsertTimestamp(new Timestamp(new Date().getTime()));
                 corretora.setUpdateTimestamp(null);
 
-                Corretora checkCorretoraExist = corretoraIsExist(name);
+                Broker checkCorretoraExist = corretoraIsExist(name);
 
                 if (checkCorretoraExist == null) {
 
@@ -84,9 +84,9 @@ public class CorretoraServiceImpl implements CorretoraService {
      * @return
      */
     @Override
-    public Corretora corretoraIsExist(String name) {
+    public Broker corretoraIsExist(String name) {
 
-        Corretora corretora = null;
+        Broker corretora = null;
 
         try {
 
@@ -106,16 +106,16 @@ public class CorretoraServiceImpl implements CorretoraService {
      * @return
      */
     @Override
-    public Corretora safeUpdate(Corretora corretoraForUpdate) {
+    public Broker safeUpdate(Broker corretoraForUpdate) {
 
-        Corretora result = null;
+        Broker result = null;
 
         try {
 
             if (corretoraForUpdate != null && !corretoraForUpdate.getName().isEmpty()) {
 
                 corretoraForUpdate.setUpdateTimestamp(new Timestamp(new Date().getTime()));
-                Corretora checkCorretoraExist = corretoraIsExist(corretoraForUpdate.getName());
+                Broker checkCorretoraExist = corretoraIsExist(corretoraForUpdate.getName());
 
                 if (checkCorretoraExist == null) {
 
@@ -138,9 +138,9 @@ public class CorretoraServiceImpl implements CorretoraService {
     }
 
     @Override
-    public Corretora unSafeUpdate(Corretora corretoraForUpdate) {
+    public Broker unSafeUpdate(Broker corretoraForUpdate) {
 
-        Corretora result = null;
+        Broker result = null;
 
         try {
 
@@ -162,7 +162,7 @@ public class CorretoraServiceImpl implements CorretoraService {
     }
 
     @Override
-    public Corretora getCorretoraById(int id) throws Exception {
+    public Broker getCorretoraById(int id) throws Exception {
 
         try {
 

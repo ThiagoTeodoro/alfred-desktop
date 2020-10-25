@@ -15,8 +15,8 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "tb_corretora")
-public class Corretora {
+@Table(name = "tb_broker")
+public class Broker {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )

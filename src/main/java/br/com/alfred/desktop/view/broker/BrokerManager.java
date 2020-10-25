@@ -1,8 +1,8 @@
-package br.com.alfred.desktop.view.corretoras;
+package br.com.alfred.desktop.view.broker;
 
 import br.com.alfred.desktop.exceptions.GenericException;
-import br.com.alfred.desktop.model.Corretora;
-import br.com.alfred.desktop.service.CorretoraServiceImpl;
+import br.com.alfred.desktop.model.Broker;
+import br.com.alfred.desktop.service.BrokerServiceImpl;
 import br.com.alfred.desktop.utils.BeanUtil;
 import br.com.alfred.desktop.utils.ViewUtil;
 import br.com.alfred.desktop.view.interfaces.IDataViewer;
@@ -16,15 +16,15 @@ import javax.swing.JOptionPane;
  * 
  * @author Thiago Teodoro Rodrigues <thiago.teodoro.rodrigues@gmail.com>
  */
-public class CorretorasManager extends javax.swing.JInternalFrame implements IManagerViewer {
+public class BrokerManager extends javax.swing.JInternalFrame implements IManagerViewer {
  
     private IDataViewer refDataViewer;
     private JDesktopPane refMain;
-    private Corretora corretoraForEdit;
+    private Broker corretoraForEdit;
     private Boolean edit;
     
     /** Creates new form CorretorasRegister */
-    public CorretorasManager(IDataViewer refDataViewer, JDesktopPane refMain, Boolean edit, Corretora corretoraForEdit) throws GenericException {
+    public BrokerManager(IDataViewer refDataViewer, JDesktopPane refMain, Boolean edit, Broker corretoraForEdit) throws GenericException {
         
         //Inicializando componentes
         initComponents();
@@ -129,8 +129,8 @@ public class CorretorasManager extends javax.swing.JInternalFrame implements IMa
             this.corretoraForEdit.setName(this.descriptionJTextField.getText());
             
             //Realizando inserção.
-            CorretoraServiceImpl corretoraService = BeanUtil.getBean(CorretoraServiceImpl.class);
-            Corretora updateCorretora =  corretoraService.safeUpdate(this.corretoraForEdit);            
+            BrokerServiceImpl corretoraService = BeanUtil.getBean(BrokerServiceImpl.class);
+            Broker updateCorretora =  corretoraService.safeUpdate(this.corretoraForEdit);            
             
             if(updateCorretora != null){
 
@@ -143,8 +143,8 @@ public class CorretorasManager extends javax.swing.JInternalFrame implements IMa
         } else{
             
             //Realizando inserção.
-            CorretoraServiceImpl corretoraService = BeanUtil.getBean(CorretoraServiceImpl.class);
-            Corretora insertedCorretora =  corretoraService.safeInsert(descriptionJTextField.getText());
+            BrokerServiceImpl corretoraService = BeanUtil.getBean(BrokerServiceImpl.class);
+            Broker insertedCorretora =  corretoraService.safeInsert(descriptionJTextField.getText());
 
             if(insertedCorretora != null){
 
@@ -179,9 +179,9 @@ public class CorretorasManager extends javax.swing.JInternalFrame implements IMa
     @Override
     public void setFrameToEditProcess(){
         
-        CorretorasManager.this.setTitle("Editar Corretora");
-        CorretorasManager.this.executeCorretoraJButton.setText("Editar");       
-        CorretorasManager.this.descriptionJTextField.setText(this.corretoraForEdit.getName());
+        BrokerManager.this.setTitle("Editar Corretora");
+        BrokerManager.this.executeCorretoraJButton.setText("Editar");       
+        BrokerManager.this.descriptionJTextField.setText(this.corretoraForEdit.getName());
     }
     
     

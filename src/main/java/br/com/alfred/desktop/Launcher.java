@@ -1,11 +1,9 @@
 package br.com.alfred.desktop;
 
-import br.com.alfred.desktop.persistence.repository.CorretoraRepository;
 import br.com.alfred.desktop.utils.MessageUtil;
 import br.com.alfred.desktop.view.main.MainApplication;
 import javax.swing.UIManager;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class Launcher implements CommandLineRunner {
-    
-    @Autowired
-    CorretoraRepository corretoraRepository;
-
+        
     /**
      * Runner Principal.
      *
@@ -29,7 +24,7 @@ public class Launcher implements CommandLineRunner {
      */
     @Override
     public void run(String... args) throws Exception {
-
+                      
         log.info(MessageUtil.msgStartApplication);
 
             //Definindo estilo da aplicação.

@@ -5,7 +5,7 @@
  */
 package br.com.alfred.desktop.view.main;
 
-import br.com.alfred.desktop.view.corretoras.CorretorasDataViewer;
+import br.com.alfred.desktop.view.broker.BrokerDataViewer;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
@@ -157,7 +157,7 @@ public class MainApplication extends javax.swing.JFrame {
 
     private void corretorasJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_corretorasJButtonActionPerformed
         
-        JInternalFrame corretorasDataViewer = new CorretorasDataViewer(this.utilJDesktopPane);
+        JInternalFrame corretorasDataViewer = new BrokerDataViewer(this.utilJDesktopPane);
         utilJDesktopPane.add(corretorasDataViewer);
         corretorasDataViewer.setVisible(true);
     }//GEN-LAST:event_corretorasJButtonActionPerformed

@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.alfred.desktop.view.corretoras;
+package br.com.alfred.desktop.view.broker;
 
 import br.com.alfred.desktop.exceptions.GenericException;
 import br.com.alfred.desktop.exceptions.RequiredFieldException;
-import br.com.alfred.desktop.model.Corretora;
-import br.com.alfred.desktop.persistence.repository.CorretoraRepository;
-import br.com.alfred.desktop.service.CorretoraService;
+import br.com.alfred.desktop.model.Broker;
 import br.com.alfred.desktop.utils.BeanUtil;
 import br.com.alfred.desktop.utils.MessageUtil;
 import br.com.alfred.desktop.utils.TableUtil;
@@ -21,6 +19,8 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import lombok.extern.slf4j.Slf4j;
+import br.com.alfred.desktop.persistence.repository.BorkerRepository;
+import br.com.alfred.desktop.service.BrokerService;
 
 /**
  * Tela de visualização das corretoras.
@@ -28,21 +28,21 @@ import lombok.extern.slf4j.Slf4j;
  * @author Thiago Teodoro Rodrigues <thiago.teodoro.rodrigues@gmail.com.br>
  */
 @Slf4j
-public class CorretorasDataViewer extends javax.swing.JInternalFrame implements IDataViewer {
+public class BrokerDataViewer extends javax.swing.JInternalFrame implements IDataViewer {
 
     private JDesktopPane refMain;
 
     /**
      * Creates new form CorretorasDataViewer
      */
-    public CorretorasDataViewer(JDesktopPane refMain) {
+    public BrokerDataViewer(JDesktopPane refMain) {
 
         //Inicializando componente.
         initComponents();
         this.refMain = refMain;
 
         //Setando renderizador personalizado da tabela.
-        this.corretorasJTable.setDefaultRenderer(String.class, new CorretorasDataViewerJTableRender());
+        this.corretorasJTable.setDefaultRenderer(String.class, new BrokerDataViewerJTableRender());
 
         //Retirando Borda do botão de on/off que é só pro Desenvolvimento ver
         this.enableJButton.setBorder(this.addJButton.getBorder());
@@ -205,7 +205,7 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
 
         try {
 
-            CorretorasManager corretorasRegister = new CorretorasManager(this, this.refMain, Boolean.FALSE, null);
+            BrokerManager corretorasRegister = new BrokerManager(this, this.refMain, Boolean.FALSE, null);
             this.refMain.add(corretorasRegister);
             corretorasRegister.setVisible(true);
         } catch (Exception e) {
@@ -224,9 +224,9 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
                 int idCorretora = Integer.parseInt(TableUtil.getColumnValueSelectedRow(this.corretorasJTable, 0));
 
                 //Injeção de dependência
-                CorretoraRepository corretoraRepository = BeanUtil.getBean(CorretoraRepository.class);
+                BorkerRepository corretoraRepository = BeanUtil.getBean(BorkerRepository.class);
 
-                CorretorasManager corretorasRegister = new CorretorasManager(this, this.refMain, Boolean.TRUE, corretoraRepository.findById(idCorretora).get());
+                BrokerManager corretorasRegister = new BrokerManager(this, this.refMain, Boolean.TRUE, corretoraRepository.findById(idCorretora).get());
                 this.refMain.add(corretorasRegister);
                 corretorasRegister.setVisible(true);
             } else {
@@ -250,11 +250,11 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
 
     private void enableJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableJButtonActionPerformed
 
-        CorretoraService corretoraService = BeanUtil.getBean(CorretoraService.class);
+        BrokerService corretoraService = BeanUtil.getBean(BrokerService.class);
         
         try {
             int idCorretoraSelected = Integer.parseInt(TableUtil.getColumnValueSelectedRow(corretorasJTable, 0));            
-            Corretora corretoraToUpdate = corretoraService.getCorretoraById(idCorretoraSelected);
+            Broker corretoraToUpdate = corretoraService.getCorretoraById(idCorretoraSelected);
             
             //Invertendo condição se está ativo fica inativo se esta inativo fica ativo.
             corretoraToUpdate.setActive(!corretoraToUpdate.isActive());
@@ -307,14 +307,14 @@ public class CorretorasDataViewer extends javax.swing.JInternalFrame implements 
     public void reloadMainTable() {
 
         //Injeção de dependência
-        CorretoraRepository corretoraRepository = BeanUtil.getBean(CorretoraRepository.class);
-        List<Corretora> listCorretora = corretoraRepository.findAll();
+        BorkerRepository corretoraRepository = BeanUtil.getBean(BorkerRepository.class);
+        List<Broker> listCorretora = corretoraRepository.findAll();
 
         //Limpados dados da tabela.
         TableUtil.emptyTable(this.corretorasJTable);
 
         //Populando a tabela.
-        for (Corretora corretora : listCorretora) {
+        for (Broker corretora : listCorretora) {
 
             Vector<String> aux = new Vector<>();
             aux.add(String.valueOf(corretora.getId()));

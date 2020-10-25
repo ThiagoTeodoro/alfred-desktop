@@ -1,6 +1,6 @@
 package br.com.alfred.desktop.view.interfaces;
 
-import br.com.alfred.desktop.view.corretoras.CorretorasManager;
+import br.com.alfred.desktop.view.broker.BrokerManager;
 
 /**
  * Interface para regulamenter a implementação de ManagerViewers.

@@ -1,4 +1,4 @@
-package br.com.alfred.desktop.view.corretoras;
+package br.com.alfred.desktop.view.broker;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -12,13 +12,13 @@ import javax.swing.table.TableCellRenderer;
  * 
  * @author Thiago Teodoro Rodrigues <thiago.teodoro.rodrigues@gmail.com>
  */
-public class CorretorasDataViewerJTableRender extends JLabel implements TableCellRenderer {
+public class BrokerDataViewerJTableRender extends JLabel implements TableCellRenderer {
             
     
     /**
      *  Configuração de opacidade.
      */
-    public CorretorasDataViewerJTableRender(){
+    public BrokerDataViewerJTableRender(){
         
         super.setOpaque(true);
     }

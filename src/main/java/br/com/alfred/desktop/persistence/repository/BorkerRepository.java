@@ -5,7 +5,7 @@
  */
 package br.com.alfred.desktop.persistence.repository;
 
-import br.com.alfred.desktop.model.Corretora;
+import br.com.alfred.desktop.model.Broker;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author Thiago Teodoro Rodrigues <thiago.teodoro.rodrigues@gmail.com>
  */
 @Repository
-public interface CorretoraRepository extends JpaRepository<Corretora, Integer>{
+public interface BorkerRepository extends JpaRepository<Broker, Integer>{
     
     /**
      * Pesquisa por nome de corretora e seu estatus.
@@ -24,7 +24,7 @@ public interface CorretoraRepository extends JpaRepository<Corretora, Integer>{
      * @param active
      * @return 
      */
-    public Corretora findByNameAndActive(String name, boolean active);
+    public Broker findByNameAndActive(String name, boolean active);
     
     /**
      * Trazer todas as corretoras baseada em seu status no banco de dados.
@@ -32,5 +32,5 @@ public interface CorretoraRepository extends JpaRepository<Corretora, Integer>{
      * @param active
      * @return 
      */
-    public List<Corretora> findByActive(boolean active);
+    public List<Broker> findByActive(boolean active);
 }

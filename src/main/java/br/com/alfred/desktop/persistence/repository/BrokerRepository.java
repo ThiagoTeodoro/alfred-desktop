@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author Thiago Teodoro Rodrigues <thiago.teodoro.rodrigues@gmail.com>
  */
 @Repository
-public interface BorkerRepository extends JpaRepository<Broker, Integer>{
+public interface BrokerRepository extends JpaRepository<Broker, Integer>{
     
     /**
      * Pesquisa por nome de corretora e seu estatus.

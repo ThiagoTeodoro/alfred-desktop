@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.alfred.desktop.persistence.repository;
+package br.com.alfred.desktop.utils;
 
 import br.com.alfred.desktop.enums.SecuritiesType;
 import br.com.alfred.desktop.model.SecuritiesPriceReference;
+import br.com.alfred.desktop.persistence.repository.SecuritiesPriceReferenceRepository;
 import java.sql.Timestamp;
 import java.util.Date;
 import org.junit.jupiter.api.BeforeAll;

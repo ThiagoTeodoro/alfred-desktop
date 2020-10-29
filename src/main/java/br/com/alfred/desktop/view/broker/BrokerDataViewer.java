@@ -19,8 +19,8 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import lombok.extern.slf4j.Slf4j;
-import br.com.alfred.desktop.persistence.repository.BorkerRepository;
 import br.com.alfred.desktop.service.BrokerService;
+import br.com.alfred.desktop.persistence.repository.BrokerRepository;
 
 /**
  * Tela de visualização das corretoras.
@@ -224,7 +224,7 @@ public class BrokerDataViewer extends javax.swing.JInternalFrame implements IDat
                 int idCorretora = Integer.parseInt(TableUtil.getColumnValueSelectedRow(this.corretorasJTable, 0));
 
                 //Injeção de dependência
-                BorkerRepository corretoraRepository = BeanUtil.getBean(BorkerRepository.class);
+                BrokerRepository corretoraRepository = BeanUtil.getBean(BrokerRepository.class);
 
                 BrokerManager corretorasRegister = new BrokerManager(this, this.refMain, Boolean.TRUE, corretoraRepository.findById(idCorretora).get());
                 this.refMain.add(corretorasRegister);
@@ -307,7 +307,7 @@ public class BrokerDataViewer extends javax.swing.JInternalFrame implements IDat
     public void reloadMainTable() {
 
         //Injeção de dependência
-        BorkerRepository corretoraRepository = BeanUtil.getBean(BorkerRepository.class);
+        BrokerRepository corretoraRepository = BeanUtil.getBean(BrokerRepository.class);
         List<Broker> listCorretora = corretoraRepository.findAll();
 
         //Limpados dados da tabela.

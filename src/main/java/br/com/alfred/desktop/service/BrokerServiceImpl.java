@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import br.com.alfred.desktop.persistence.repository.BorkerRepository;
+import br.com.alfred.desktop.persistence.repository.BrokerRepository;
 
 /**
  * Classe de serviço para corretoras.
@@ -25,7 +25,7 @@ import br.com.alfred.desktop.persistence.repository.BorkerRepository;
 public class BrokerServiceImpl implements BrokerService {
 
     @Autowired
-    BorkerRepository corretoraRepository;
+    BrokerRepository corretoraRepository;
 
     /**
      * Serviço responsável por salvar novas corretoras.

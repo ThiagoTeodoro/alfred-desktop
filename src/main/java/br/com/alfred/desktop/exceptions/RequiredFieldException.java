@@ -1,14 +1,11 @@
 package br.com.alfred.desktop.exceptions;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 /**
  * Classe responsável por tratar exception de validações
  * 
  * @author Thiago Teodoro Rodrigues <thiago.teodoro.rodrigues@gmail.com>
  */
-public class RequiredFieldException extends Exception{
+public class RequiredFieldException extends RuntimeException {
    
     /**
      * Exception para campos obrigatórios faltando apenas mensgaem.
@@ -17,7 +14,6 @@ public class RequiredFieldException extends Exception{
     public RequiredFieldException(String msg){
      
         super(msg);
-        JOptionPane.showMessageDialog(new JFrame(), msg, "Atenção", JOptionPane.WARNING_MESSAGE);
     }   
     
     /**
@@ -26,8 +22,7 @@ public class RequiredFieldException extends Exception{
      */
     public RequiredFieldException(String msg, Throwable throwable){
         
-        super(msg, throwable);
-        JOptionPane.showMessageDialog(new JFrame(), msg, "Atenção", JOptionPane.WARNING_MESSAGE);
+        super(msg, throwable);        
     }
     
     

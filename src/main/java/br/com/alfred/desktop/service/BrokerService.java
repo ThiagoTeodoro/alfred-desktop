@@ -1,5 +1,6 @@
 package br.com.alfred.desktop.service;
 
+import br.com.alfred.desktop.exceptions.RequiredFieldException;
 import br.com.alfred.desktop.model.Broker;
 
 /**
@@ -16,7 +17,7 @@ public interface BrokerService {
      * @param name
      * @return
      */
-    Broker corretoraIsExist(String name);
+    Broker brokerIsExist(String name) throws RequiredFieldException;
 
     /**
      * Serviço responsável por salvar novas corretoras.
@@ -59,6 +60,6 @@ public interface BrokerService {
      * @return
      * @throws java.lang.Exception
      */
-    Broker getCorretoraById(int id) throws Exception;
+    Broker getBrokerById(int id) throws Exception;
 
 }

@@ -1,6 +1,7 @@
 package br.com.alfred.desktop.view.broker;
 
 import br.com.alfred.desktop.exceptions.GenericException;
+import br.com.alfred.desktop.exceptions.RequiredFieldException;
 import br.com.alfred.desktop.model.Broker;
 import br.com.alfred.desktop.service.BrokerServiceImpl;
 import br.com.alfred.desktop.utils.BeanUtil;
@@ -9,6 +10,7 @@ import br.com.alfred.desktop.view.interfaces.IDataViewer;
 import br.com.alfred.desktop.view.interfaces.IManagerViewer;
 import java.util.Date;
 import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -144,8 +146,16 @@ public class BrokerManager extends javax.swing.JInternalFrame implements IManage
             
             //Realizando inserção.
             BrokerServiceImpl corretoraService = BeanUtil.getBean(BrokerServiceImpl.class);
-            Broker insertedCorretora =  corretoraService.safeInsert(descriptionJTextField.getText());
-
+            Broker insertedCorretora = null;
+            
+            try{
+                
+                insertedCorretora =  corretoraService.safeInsert(descriptionJTextField.getText());
+            } catch (RequiredFieldException e){
+                               
+                JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Atenção", JOptionPane.WARNING_MESSAGE);
+            }
+            
             if(insertedCorretora != null){
 
                 //Recarregando tela anterior        

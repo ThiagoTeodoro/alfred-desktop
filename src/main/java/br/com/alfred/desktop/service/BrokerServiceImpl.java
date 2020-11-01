@@ -41,36 +41,30 @@ public class BrokerServiceImpl implements BrokerService {
      * @return
      */
     @Override
-    public Broker safeInsert(String name) {
+    public Broker safeInsert(String name) throws RequiredFieldException {
 
         Broker corretora = null;
 
-        try {
+        if (name != null && !name.isEmpty()) {
 
-            if (name != null && !name.isEmpty()) {
+            corretora = new Broker();
+            corretora.setName(name);
+            corretora.setActive(true);
+            corretora.setInsertTimestamp(new Timestamp(new Date().getTime()));
+            corretora.setUpdateTimestamp(null);
 
-                corretora = new Broker();
-                corretora.setName(name);
-                corretora.setActive(true);
-                corretora.setInsertTimestamp(new Timestamp(new Date().getTime()));
-                corretora.setUpdateTimestamp(null);
+            Broker checkCorretoraExist = brokerIsExist(name);
 
-                Broker checkCorretoraExist = corretoraIsExist(name);
+            if (checkCorretoraExist == null) {
 
-                if (checkCorretoraExist == null) {
-
-                    corretora = corretoraRepository.save(corretora);
-                } else {
-
-                    corretora = checkCorretoraExist;
-                }
+                corretora = corretoraRepository.save(corretora);
             } else {
 
-                throw new RequiredFieldException("O nome da corretora é obrigatório!");
+                corretora = checkCorretoraExist;
             }
-        } catch (Exception e) {
+        } else {
 
-            log.error(String.format(MessageUtil.msgGenericError, e), e);
+            throw new RequiredFieldException("O nome da corretora é obrigatório!");
         }
 
         return corretora;
@@ -84,7 +78,7 @@ public class BrokerServiceImpl implements BrokerService {
      * @return
      */
     @Override
-    public Broker corretoraIsExist(String name) {
+    public Broker brokerIsExist(String name) {
 
         Broker corretora = null;
 
@@ -115,15 +109,15 @@ public class BrokerServiceImpl implements BrokerService {
             if (corretoraForUpdate != null && !corretoraForUpdate.getName().isEmpty()) {
 
                 corretoraForUpdate.setUpdateTimestamp(new Timestamp(new Date().getTime()));
-                Broker checkCorretoraExist = corretoraIsExist(corretoraForUpdate.getName());
+                Broker checkCorretoraExist = brokerIsExist(corretoraForUpdate.getName());
 
                 if (checkCorretoraExist == null) {
 
                     result = corretoraRepository.save(corretoraForUpdate);
                 } else {
 
-                    new DataAlreadyExistException(String.format(MessageUtil.dataAlreadyExist, corretoraForUpdate.getName()));
                     result = checkCorretoraExist;
+                    throw new DataAlreadyExistException(String.format(MessageUtil.dataAlreadyExist, corretoraForUpdate.getName()));
                 }
             } else {
 
@@ -162,7 +156,7 @@ public class BrokerServiceImpl implements BrokerService {
     }
 
     @Override
-    public Broker getCorretoraById(int id) throws Exception {
+    public Broker getBrokerById(int id) throws Exception {
 
         try {
 

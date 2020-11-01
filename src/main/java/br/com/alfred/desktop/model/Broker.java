@@ -7,7 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Modelo de dados para corretora.
@@ -15,7 +18,10 @@ import lombok.Data;
  */
 @Data
 @Entity
+@Builder
 @Table(name = "tb_broker")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Broker {
     
     @Id

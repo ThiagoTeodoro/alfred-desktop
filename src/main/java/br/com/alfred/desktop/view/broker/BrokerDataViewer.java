@@ -254,7 +254,7 @@ public class BrokerDataViewer extends javax.swing.JInternalFrame implements IDat
         
         try {
             int idCorretoraSelected = Integer.parseInt(TableUtil.getColumnValueSelectedRow(corretorasJTable, 0));            
-            Broker corretoraToUpdate = corretoraService.getCorretoraById(idCorretoraSelected);
+            Broker corretoraToUpdate = corretoraService.getBrokerById(idCorretoraSelected);
             
             //Invertendo condição se está ativo fica inativo se esta inativo fica ativo.
             corretoraToUpdate.setActive(!corretoraToUpdate.isActive());

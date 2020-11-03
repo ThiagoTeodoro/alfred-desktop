@@ -126,16 +126,33 @@ public class BrokerServiceTest {
         Assertions.assertThrows(GenericException.class, () -> {
             brokerService.getBrokerById(0); //This is not a class to Injection
         });        
-    }
+    }    
     
-    
+    /**
+     * This method virify if a unSafeUpdate has occured propely.
+     */
+    @Test
     public void testUnSafeUpdate(){
         
+        Broker brokerToUpdate = mockBroker;
+        brokerToUpdate.setName("Abacaxi");
+        
+        brokerService.unSafeUpdate(brokerToUpdate);
+        Assertions.assertTrue(brokerService.getBrokerById(mockBroker.getId()).getName().equals("Abacaxi"));
     }
     
-    
+    /**
+     * This method virify if a unSafeUpdate has launched when a empty name has 
+     * sended to update.
+     */
+    @Test
     public void testUnSafeUpdateRequiredField(){
         
-    }
-        
+         Assertions.assertThrows(RequiredFieldException.class, () -> {
+            Broker brokerToUpdate = mockBroker;
+            brokerToUpdate.setName(""); //This is not a class to Injection
+             
+            brokerService.unSafeUpdate(brokerToUpdate); 
+        });
+    }      
 }

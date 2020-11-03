@@ -21,6 +21,9 @@ import javax.swing.JDesktopPane;
 import lombok.extern.slf4j.Slf4j;
 import br.com.alfred.desktop.service.BrokerService;
 import br.com.alfred.desktop.persistence.repository.BrokerRepository;
+import java.awt.HeadlessException;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * Tela de visualização das corretoras.
@@ -230,15 +233,21 @@ public class BrokerDataViewer extends javax.swing.JInternalFrame implements IDat
                 this.refMain.add(corretorasRegister);
                 corretorasRegister.setVisible(true);
             } else {
-
-                new RequiredFieldException(MessageUtil.selectLineRiquired);
+                
+                JOptionPane.showMessageDialog(new JFrame(), MessageUtil.selectLineRiquired, "Atenção", JOptionPane.WARNING_MESSAGE);                    
             }
         } catch (GenericException e) {
 
-            //Se for lançada uma Exception Genérica aqui é por que tentou editar uma corretora desativada não faremos nada nesse caso.                                            
-        } catch (Exception e) {
+            //Se for lançada uma Exception Genérica verificaremos se é uma mensagem do tipo notAllowEditDisableData
+            if(e.getMessage().equals(MessageUtil.notAllowEditDesableData)){
+                
+                JOptionPane.showMessageDialog(new JFrame(), MessageUtil.notAllowEditDesableData, "Atenção", JOptionPane.WARNING_MESSAGE);
+                e.printStackTrace();
+            }
+        } catch (HeadlessException | NumberFormatException e) {
 
             this.closeAndDeallocateMemoryFrame();
+            e.printStackTrace();
         }
     }//GEN-LAST:event_editJButtonActionPerformed
 
@@ -267,9 +276,14 @@ public class BrokerDataViewer extends javax.swing.JInternalFrame implements IDat
             
             //Mudando botão
             this.changeIconEnableDisableButton(corretoraToUpdate.isActive() ? "Ativa" : "Desativada");                                   
-        } catch (Exception ex) {
+        } catch (RequiredFieldException ex){
+        
+            JOptionPane.showMessageDialog(new JFrame(), ex.getMessage(), "Atenção", JOptionPane.WARNING_MESSAGE);
+            ex.printStackTrace();        
+        } catch (GenericException | NumberFormatException ex) {
             
-            log.error("Ocorreu um erro inesperado em CorretoraDataViewer.enableJButtonActionPerformed(). Excepton : ", ex);
+            JOptionPane.showMessageDialog(new JFrame(), String.format(MessageUtil.msgGenericError, ex), "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
         }
 
     }//GEN-LAST:event_enableJButtonActionPerformed
@@ -284,9 +298,10 @@ public class BrokerDataViewer extends javax.swing.JInternalFrame implements IDat
         try {
             
             this.changeIconEnableDisableButton(TableUtil.getColumnValueSelectedRow(corretorasJTable, 2));            
-        } catch (GenericException ex) {
+        } catch (Exception ex) {
             
-            log.error("Ocorreu um erro inesperado em CorretoraDataViewer.corretorasJTableMouseClicked(). Excepton : ", ex);
+            JOptionPane.showMessageDialog(new JFrame(), String.format(MessageUtil.msgGenericError, ex), "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_corretorasJTableMouseClicked
 

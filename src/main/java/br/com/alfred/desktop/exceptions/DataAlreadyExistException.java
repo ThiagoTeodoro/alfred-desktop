@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
  * 
  * @author Thiago Teodoro Rodrigues
  */
-public class DataAlreadyExistException extends Exception{
+public class DataAlreadyExistException extends RuntimeException{
     
     
     /**

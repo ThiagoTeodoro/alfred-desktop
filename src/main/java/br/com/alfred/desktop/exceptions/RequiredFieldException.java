@@ -19,10 +19,11 @@ public class RequiredFieldException extends RuntimeException {
     /**
      * Exception para campos obrigatórios faltando com rastreio throws.
      * @param msg 
+     * @param throwable 
      */
     public RequiredFieldException(String msg, Throwable throwable){
         
-        super(msg, throwable);        
+        super(msg, throwable);           
     }
     
     

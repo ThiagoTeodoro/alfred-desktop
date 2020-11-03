@@ -1,8 +1,7 @@
 package br.com.alfred.desktop.utils;
 
-import br.com.alfred.desktop.exceptions.GenericException;
-import br.com.alfred.desktop.exceptions.RequiredFieldException;
 import java.util.Vector;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -52,10 +51,9 @@ public class TableUtil {
      *
      * @param jTable
      * @param numberOfTargetColumn
-     * @return
-     * @throws GenericException
+     * @return     
      */
-    public static String getColumnValueSelectedRow(JTable jTable, int numberOfTargetColumn) throws GenericException {
+    public static String getColumnValueSelectedRow(JTable jTable, int numberOfTargetColumn) {
 
         String result = null;
 
@@ -65,7 +63,7 @@ public class TableUtil {
             result = jTable.getValueAt(numberRow, numberOfTargetColumn).toString();
         } catch (Exception e) {
 
-            throw new GenericException(String.format(MessageUtil.msgGenericError, e.getMessage()), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), String.format(MessageUtil.msgGenericError, e.getMessage()), "Error", JOptionPane.ERROR_MESSAGE);            
         }
 
         return result;

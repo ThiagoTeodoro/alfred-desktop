@@ -5,6 +5,7 @@ import br.com.alfred.desktop.exceptions.RequiredFieldException;
 import br.com.alfred.desktop.model.Broker;
 import br.com.alfred.desktop.service.BrokerServiceImpl;
 import br.com.alfred.desktop.utils.BeanUtil;
+import br.com.alfred.desktop.utils.MessageUtil;
 import br.com.alfred.desktop.utils.ViewUtil;
 import br.com.alfred.desktop.view.interfaces.IDataViewer;
 import br.com.alfred.desktop.view.interfaces.IManagerViewer;
@@ -12,6 +13,7 @@ import java.util.Date;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.aspectj.bridge.Message;
 
 /**
  * View responsável por cadastras novas corretoras.
@@ -25,7 +27,14 @@ public class BrokerManager extends javax.swing.JInternalFrame implements IManage
     private Broker corretoraForEdit;
     private Boolean edit;
     
-    /** Creates new form CorretorasRegister */
+    /**
+     * Creates new form CorretorasRegister
+     * 
+     * @param refDataViewer
+     * @param refMain
+     * @param edit
+     * @param corretoraForEdit 
+     */
     public BrokerManager(IDataViewer refDataViewer, JDesktopPane refMain, Boolean edit, Broker corretoraForEdit) throws GenericException {
         
         //Inicializando componentes
@@ -33,7 +42,7 @@ public class BrokerManager extends javax.swing.JInternalFrame implements IManage
         this.refMain = refMain;
         this.refDataViewer = refDataViewer;
         this.edit = edit;
-        ViewUtil.setDefaultButtonInternalFrame(this, executeCorretoraJButton);
+        ViewUtil.setDefaultButtonInternalFrame(BrokerManager.this, executeCorretoraJButton);
         
         if(edit){
             
@@ -41,11 +50,11 @@ public class BrokerManager extends javax.swing.JInternalFrame implements IManage
                 
                 //Configurando tela para edit
                 this.corretoraForEdit = corretoraForEdit;
-                this.setFrameToEditProcess();
+                BrokerManager.this.setFrameToEditProcess();
             } else {
                 
-                //Não é possivel realizar a edição de corretoras desativadas
-                throw new GenericException("Não é permitido edição de corretoras desátivadas!", JOptionPane.WARNING_MESSAGE);               
+                //Não é possivel realizar a edição de corretoras desativadas                
+                throw new GenericException(MessageUtil.notAllowEditDesableData);
             }                        
         }
     }
@@ -153,7 +162,8 @@ public class BrokerManager extends javax.swing.JInternalFrame implements IManage
                 insertedCorretora =  corretoraService.safeInsert(descriptionJTextField.getText());
             } catch (RequiredFieldException e){
                                
-                JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Atenção", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Atenção", JOptionPane.WARNING_MESSAGE);     
+                e.printStackTrace();
             }
             
             if(insertedCorretora != null){

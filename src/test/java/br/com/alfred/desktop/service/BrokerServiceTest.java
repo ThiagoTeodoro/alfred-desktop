@@ -5,6 +5,7 @@
  */
 package br.com.alfred.desktop.service;
 
+import br.com.alfred.desktop.exceptions.GenericException;
 import br.com.alfred.desktop.exceptions.RequiredFieldException;
 import br.com.alfred.desktop.model.Broker;
 import br.com.alfred.desktop.persistence.repository.BrokerRepository;
@@ -101,6 +102,40 @@ public class BrokerServiceTest {
     public void testBrokerIfExistDataNotExist(){
         
         Assertions.assertNull(brokerService.brokerIsExist("abcdefgh"));
+    }
+    
+    
+    /**
+     * This test will be verify if the inserted data in beforeEach() exist
+     * in database by selection the id of this data.
+     */
+    @Test
+    public void testGetBrokerById(){
+        
+        Assertions.assertNotNull(brokerService.getBrokerById(mockBroker.getId()));
+    }
+    
+    
+    /**
+     * This test will be verify if the exception its launched when a no exist
+     * id is call in the metheod.
+     */
+    @Test
+    public void testGetBrokerByIdNotExist(){
+        
+        Assertions.assertThrows(GenericException.class, () -> {
+            brokerService.getBrokerById(0); //This is not a class to Injection
+        });        
+    }
+    
+    
+    public void testUnSafeUpdate(){
+        
+    }
+    
+    
+    public void testUnSafeUpdateRequiredField(){
+        
     }
         
 }

@@ -1,7 +1,10 @@
 package br.com.alfred.desktop.service;
 
+import br.com.alfred.desktop.exceptions.DataAlreadyExistException;
+import br.com.alfred.desktop.exceptions.GenericException;
 import br.com.alfred.desktop.exceptions.RequiredFieldException;
 import br.com.alfred.desktop.model.Broker;
+import java.util.NoSuchElementException;
 
 /**
  * Serviço para as operações com a corretora.
@@ -41,7 +44,7 @@ public interface BrokerService {
      * @param corretoraForUpdate
      * @return
      */
-    Broker safeUpdate(Broker corretoraForUpdate);
+    Broker safeUpdate(Broker corretoraForUpdate) throws DataAlreadyExistException, RequiredFieldException;
 
     /**
      * Método responsável por executar a atualização de uma corretora no banco
@@ -50,7 +53,7 @@ public interface BrokerService {
      * @param corretoraForUpdate
      * @return
      */
-    Broker unSafeUpdate(Broker corretoraForUpdate);
+    Broker unSafeUpdate(Broker corretoraForUpdate) throws RequiredFieldException;
 
     /**
      * Método responsável por recupear uma corretora pelo seu Id.Caso a
@@ -58,8 +61,7 @@ public interface BrokerService {
      *
      * @param id
      * @return
-     * @throws java.lang.Exception
      */
-    Broker getBrokerById(int id) throws Exception;
+    Broker getBrokerById(int id) throws GenericException;
 
 }

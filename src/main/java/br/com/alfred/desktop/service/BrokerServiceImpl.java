@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.alfred.desktop.persistence.repository.BrokerRepository;
+import java.util.NoSuchElementException;
 
 /**
  * Classe de serviço para corretoras.
@@ -100,70 +101,58 @@ public class BrokerServiceImpl implements BrokerService {
      * @return
      */
     @Override
-    public Broker safeUpdate(Broker corretoraForUpdate) {
+    public Broker safeUpdate(Broker corretoraForUpdate) throws DataAlreadyExistException, RequiredFieldException {
 
         Broker result = null;
 
-        try {
+        if (corretoraForUpdate != null && !corretoraForUpdate.getName().isEmpty()) {
 
-            if (corretoraForUpdate != null && !corretoraForUpdate.getName().isEmpty()) {
+            corretoraForUpdate.setUpdateTimestamp(new Timestamp(new Date().getTime()));
+            Broker checkCorretoraExist = brokerIsExist(corretoraForUpdate.getName());
 
-                corretoraForUpdate.setUpdateTimestamp(new Timestamp(new Date().getTime()));
-                Broker checkCorretoraExist = brokerIsExist(corretoraForUpdate.getName());
-
-                if (checkCorretoraExist == null) {
-
-                    result = corretoraRepository.save(corretoraForUpdate);
-                } else {
-
-                    result = checkCorretoraExist;
-                    throw new DataAlreadyExistException(String.format(MessageUtil.dataAlreadyExist, corretoraForUpdate.getName()));
-                }
-            } else {
-
-                throw new RequiredFieldException("O nome da corretora é obrigatório!");
-            }
-        } catch (Exception e) {
-
-            log.error(String.format(MessageUtil.msgGenericError, e), e);
-        }
-
-        return result;
-    }
-
-    @Override
-    public Broker unSafeUpdate(Broker corretoraForUpdate) {
-
-        Broker result = null;
-
-        try {
-
-            if (corretoraForUpdate != null && !corretoraForUpdate.getName().isEmpty()) {
-
-                corretoraForUpdate.setUpdateTimestamp(new Timestamp(new Date().getTime()));
+            if (checkCorretoraExist == null) {
 
                 result = corretoraRepository.save(corretoraForUpdate);
             } else {
 
-                throw new RequiredFieldException("O nome da corretora é obrigatório!");
+                result = checkCorretoraExist;
+                throw new DataAlreadyExistException(String.format(MessageUtil.dataAlreadyExist, corretoraForUpdate.getName()));
             }
-        } catch (Exception e) {
+        } else {
 
-            log.error(String.format(MessageUtil.msgGenericError, e), e);
+            throw new RequiredFieldException("O nome da corretora é obrigatório!");
         }
 
         return result;
     }
 
     @Override
-    public Broker getBrokerById(int id) throws Exception {
+    public Broker unSafeUpdate(Broker corretoraForUpdate) throws RequiredFieldException {
+
+        Broker result = null;
+
+        if (corretoraForUpdate != null && !corretoraForUpdate.getName().isEmpty()) {
+
+            corretoraForUpdate.setUpdateTimestamp(new Timestamp(new Date().getTime()));
+
+            result = corretoraRepository.save(corretoraForUpdate);
+        } else {
+
+            throw new RequiredFieldException("O nome da corretora é obrigatório!");
+        }
+
+        return result;
+    }
+
+    @Override
+    public Broker getBrokerById(int id) throws GenericException {
 
         try {
 
             return corretoraRepository.findById(id).get();
         } catch (Exception ex) {
 
-            throw new GenericException(String.format(MessageUtil.msgGenericError, ex), JOptionPane.ERROR_MESSAGE);
+            throw new GenericException(String.format(MessageUtil.msgGenericError, ex));
         }
     }
 

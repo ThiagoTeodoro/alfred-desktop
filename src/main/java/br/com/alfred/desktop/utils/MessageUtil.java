@@ -8,6 +8,7 @@ package br.com.alfred.desktop.utils;
  */
 public class MessageUtil {
     
+    public static final String notAllowEditDesableData = "Não é permitido edição de corretoras desátivadas!";  
     public static final String dataAlreadyExist = "O dado %s já existe em nosso banco de dados! Nenhuma alteração foi salva.";
     public static final String selectLineRiquired = "É necessário selecionar uma linha para continuar!";
     public static final String msgGenericError = "Ocorreu um erro inesperado! Exception %s.";

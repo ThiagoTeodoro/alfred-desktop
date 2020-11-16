@@ -4,14 +4,13 @@ import br.com.alfred.desktop.exceptions.DataAlreadyExistException;
 import br.com.alfred.desktop.exceptions.GenericException;
 import br.com.alfred.desktop.exceptions.RequiredFieldException;
 import br.com.alfred.desktop.model.Broker;
-import java.util.NoSuchElementException;
 
 /**
  * Serviço para as operações com a corretora.
  *
  * @author Thiago Teodoro Rodrigues <thiago.teodoro.rodrigues@gmail.com>
  */
-public interface BrokerService {
+public interface IBrokerService {
 
     /**
      * Método responsável por verificar se uma corretora já não existe no banco

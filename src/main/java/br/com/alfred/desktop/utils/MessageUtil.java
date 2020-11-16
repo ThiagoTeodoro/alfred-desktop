@@ -14,5 +14,6 @@ public class MessageUtil {
     public static final String msgGenericError = "Ocorreu um erro inesperado! Exception %s.";
     public static final String msgStartApplication = "Inicializando a aplicação...";
     public static final String msgStartedApplciation = "Aplicação inicializada!";  
+    public static final String noTicketForTreasuryBoundRecived = "Nenhum código de titulo de tesouro foi recebido!";
     
 }

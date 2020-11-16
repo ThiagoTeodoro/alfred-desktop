@@ -1,22 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.alfred.desktop.service;
 
 import br.com.alfred.desktop.exceptions.GenericException;
 import br.com.alfred.desktop.exceptions.RequiredFieldException;
 import br.com.alfred.desktop.model.Broker;
 import br.com.alfred.desktop.persistence.repository.BrokerRepository;
-import br.com.alfred.desktop.utils.BeanUtil;
-import br.com.alfred.desktop.utils.MessageUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -29,7 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class BrokerServiceTest {
     
     @Autowired
-    BrokerService brokerService;
+    IBrokerService brokerService;
     
     @Autowired
     BrokerRepository brokerRepository;

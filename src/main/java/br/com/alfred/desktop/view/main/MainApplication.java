@@ -6,6 +6,7 @@
 package br.com.alfred.desktop.view.main;
 
 import br.com.alfred.desktop.view.broker.BrokerDataViewer;
+import br.com.alfred.desktop.view.fixedIncome.FixedIncome;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
@@ -39,8 +40,9 @@ public class MainApplication extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         menuJPanel = new javax.swing.JPanel();
-        corretorasJButton = new javax.swing.JButton();
+        brokerJButton = new javax.swing.JButton();
         titleJLabel = new javax.swing.JLabel();
+        fixedIncomeJButton = new javax.swing.JButton();
         utilJPanel = new javax.swing.JPanel();
         utilJDesktopPane = new javax.swing.JDesktopPane(){
 
@@ -61,16 +63,16 @@ public class MainApplication extends javax.swing.JFrame {
 
         menuJPanel.setBackground(new java.awt.Color(0, 128, 255));
 
-        corretorasJButton.setBackground(new java.awt.Color(0, 128, 255));
-        corretorasJButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        corretorasJButton.setForeground(new java.awt.Color(255, 255, 255));
-        corretorasJButton.setText(" - Corretoras");
-        corretorasJButton.setBorder(null);
-        corretorasJButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        corretorasJButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        corretorasJButton.addActionListener(new java.awt.event.ActionListener() {
+        brokerJButton.setBackground(new java.awt.Color(0, 128, 255));
+        brokerJButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        brokerJButton.setForeground(new java.awt.Color(255, 255, 255));
+        brokerJButton.setText(" - Corretoras");
+        brokerJButton.setBorder(null);
+        brokerJButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        brokerJButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        brokerJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                corretorasJButtonActionPerformed(evt);
+                brokerJButtonActionPerformed(evt);
             }
         });
 
@@ -79,6 +81,19 @@ public class MainApplication extends javax.swing.JFrame {
         titleJLabel.setForeground(new java.awt.Color(255, 255, 255));
         titleJLabel.setText("Alfred");
 
+        fixedIncomeJButton.setBackground(new java.awt.Color(0, 128, 255));
+        fixedIncomeJButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        fixedIncomeJButton.setForeground(new java.awt.Color(255, 255, 255));
+        fixedIncomeJButton.setText(" - Renda Fixa");
+        fixedIncomeJButton.setBorder(null);
+        fixedIncomeJButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        fixedIncomeJButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        fixedIncomeJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fixedIncomeJButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuJPanelLayout = new javax.swing.GroupLayout(menuJPanel);
         menuJPanel.setLayout(menuJPanelLayout);
         menuJPanelLayout.setHorizontalGroup(
@@ -86,10 +101,11 @@ public class MainApplication extends javax.swing.JFrame {
             .addGroup(menuJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(menuJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(corretorasJButton, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                    .addComponent(brokerJButton, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                     .addGroup(menuJPanelLayout.createSequentialGroup()
                         .addComponent(titleJLabel)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(fixedIncomeJButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))
                 .addContainerGap())
         );
         menuJPanelLayout.setVerticalGroup(
@@ -98,8 +114,10 @@ public class MainApplication extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(titleJLabel)
                 .addGap(48, 48, 48)
-                .addComponent(corretorasJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(464, Short.MAX_VALUE))
+                .addComponent(brokerJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(fixedIncomeJButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(406, Short.MAX_VALUE))
         );
 
         utilJPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -155,12 +173,19 @@ public class MainApplication extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void corretorasJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_corretorasJButtonActionPerformed
+    private void brokerJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brokerJButtonActionPerformed
         
         JInternalFrame corretorasDataViewer = new BrokerDataViewer(this.utilJDesktopPane);
         utilJDesktopPane.add(corretorasDataViewer);
         corretorasDataViewer.setVisible(true);
-    }//GEN-LAST:event_corretorasJButtonActionPerformed
+    }//GEN-LAST:event_brokerJButtonActionPerformed
+
+    private void fixedIncomeJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fixedIncomeJButtonActionPerformed
+        
+        JInternalFrame fixedIncomeDataViewr = new FixedIncome(this.utilJDesktopPane);
+        utilJDesktopPane.add(fixedIncomeDataViewr);
+        fixedIncomeDataViewr.setVisible(true);
+    }//GEN-LAST:event_fixedIncomeJButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,7 +223,8 @@ public class MainApplication extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton corretorasJButton;
+    private javax.swing.JButton brokerJButton;
+    private javax.swing.JButton fixedIncomeJButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel menuJPanel;
     private javax.swing.JLabel titleJLabel;

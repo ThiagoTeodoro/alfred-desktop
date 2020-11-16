@@ -7,14 +7,10 @@ import br.com.alfred.desktop.model.Broker;
 import br.com.alfred.desktop.utils.MessageUtil;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.alfred.desktop.persistence.repository.BrokerRepository;
-import java.util.NoSuchElementException;
 
 /**
  * Classe de serviço para corretoras.
@@ -23,7 +19,7 @@ import java.util.NoSuchElementException;
  */
 @Slf4j
 @Service
-public class BrokerServiceImpl implements BrokerService {
+public class BrokerServiceImpl implements IBrokerService {
 
     @Autowired
     BrokerRepository corretoraRepository;

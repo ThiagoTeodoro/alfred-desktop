@@ -19,11 +19,11 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import lombok.extern.slf4j.Slf4j;
-import br.com.alfred.desktop.service.BrokerService;
 import br.com.alfred.desktop.persistence.repository.BrokerRepository;
 import java.awt.HeadlessException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import br.com.alfred.desktop.service.IBrokerService;
 
 /**
  * Tela de visualização das corretoras.
@@ -259,7 +259,7 @@ public class BrokerDataViewer extends javax.swing.JInternalFrame implements IDat
 
     private void enableJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableJButtonActionPerformed
 
-        BrokerService corretoraService = BeanUtil.getBean(BrokerService.class);
+        IBrokerService corretoraService = BeanUtil.getBean(IBrokerService.class);
         
         try {
             int idCorretoraSelected = Integer.parseInt(TableUtil.getColumnValueSelectedRow(corretorasJTable, 0));            
